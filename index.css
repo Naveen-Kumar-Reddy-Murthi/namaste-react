@@ -51,3 +51,20 @@
 .filter-btn {
     margin: 10px;
 }
+.shimmer-card {
+    margin:20px;
+    width: 200px;
+    height: 400px;
+    background-color: lightgrey;
+
+}
+.shimmer-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.login {
+    margin: 15 10px;
+    cursor: pointer;
+
+}
