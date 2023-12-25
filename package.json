@@ -18,14 +18,15 @@
   },
   "homepage": "https://github.com/Naveen-Kumar-Reddy-Murthi/namaste-react#readme",
   "devDependencies": {
-    "parcel": "^2.10.0",
+    "parcel": "^2.10.3",
     "process": "^0.11.10"
   },
   "dependencies": {
+    "lezer": "^0.13.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
-  "browserslist":[
+  "browserslist": [
     "last 2 Chrome versions"
   ]
 }
