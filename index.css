@@ -63,6 +63,10 @@
     flex-wrap: wrap;
 }
 
+.filter{
+    display: flex;
+}
+
 .login {
     margin: 15 10px;
     cursor: pointer;
