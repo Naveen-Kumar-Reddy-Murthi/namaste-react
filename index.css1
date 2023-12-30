@@ -1,0 +1,106 @@
+.header{
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+
+.logo{
+    width: 150px;
+}
+
+.nav-items {
+    padding: 0px 20px;
+}
+
+.nav-items > ul {
+    font-size: 24px;
+    display: flex;
+    list-style-type: none;
+}
+.nav-items > ul > li {
+    padding: 10px;
+    margin: 10px;
+}
+.res-container{
+    width: 1800px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.res-card{
+    width: 250px;
+    height: 500px;
+    background-color: antiquewhite;
+    padding: 5px;
+    margin: 3px;
+    border: 1px solid black;
+}
+.res-card:hover {
+    border: 1px solid black;
+    cursor: pointer;
+}
+.res-card h4 {
+    margin-bottom: 1px; /* Adjust the margin between h4 elements */
+  }
+.search{
+    padding: 10px;
+}
+
+.res-logo {
+    width: 100%;
+}
+
+.filter-btn {
+    margin: 10px;
+}
+.shimmer-card {
+    margin:20px;
+    width: 200px;
+    height: 400px;
+    background-color: lightgrey;
+
+}
+.shimmer-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.filter{
+    display: flex;
+}
+
+.login {
+    margin: 15 10px;
+    cursor: pointer;
+
+}
+
+.restuarant-info{
+    width: 300px;
+    height: 500px;
+    background-color: rgb(245, 243, 240);
+    padding: 5px;
+    margin: 3px;
+    align-self: center;
+}
+
+.res-info-logo {
+    width: 25%;
+}
+
+res-card h3, h4 a:hover, a:visited, a:link, a:active
+{
+    color: black;
+    text-decoration: none;
+}
+
+.contributor-card {
+    border: 1px solid black;
+    margin: 10px;
+}
+
+contributor-card p,h3,h4 {
+    margin: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+  
