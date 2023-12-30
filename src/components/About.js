@@ -12,7 +12,7 @@ class About extends React.Component {
     return (
       <div className="contributor-card">
         <h1>About Us class</h1>
-        {/* <Contributor name="Naveen1  🇮🇳" location="@mnreddy7" /> */}
+        {/* <Contributor name="naveen-kumar-reddy-murthi"/> */}
         <ContributorClass name="naveen-kumar-reddy-murthi"/>
         <ContributorClass name="akshaymarch7" />
       </div>
