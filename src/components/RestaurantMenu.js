@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { RESTUARANT_INFO_API, CDN_URL } from "../utils/Constant";
-import Shimmer from "./Shimmer";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RetaurantCategory from "./RetaurantCategory";
 
 const RestuarantMenu = () => {
   const { restuarantId } = useParams();
   const restuarantInfo = useRestaurantMenu(restuarantId);
+  const [showIndex, setShowIndex] = useState(null);
   if (restuarantInfo === null) return <div className="shimmer-card" />;
 
   const {
@@ -27,35 +27,29 @@ const RestuarantMenu = () => {
     itemCards = itemCards2;
   }
 
+  const categories =
+    restuarantInfo.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card?.["card"]?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+
   return (
-    <div>
-      <img
-        className="res-info-logo"
-        alt="res-logo"
-        src={CDN_URL + cloudinaryImageId}
-      />
-      <h3>{name}</h3>
-      <p> {cuisines.join(", ")}</p>
-      <h5>
+    <div className="text-center">
+      <h1 className="font-bold my-6 text-2xl">{name}</h1>
+      <p className="font-bold my-1 text-lg"> {cuisines.join(", ")}</p>
+      <h5 className="font-bold my-1 text-lg">
         ★ {avgRatingString} | {costForTwoMessage}
       </h5>
-      <h2>Menu</h2>
-      <ul>
-        {itemCards?.map((item) => (
-          <li key={item.card.info.id}>
-            {" "}
-            {item.card.info.name}-{" "}
-            {"₹ " +
-              (item.card.info.price !== null &&
-              item.card.info.price !== undefined
-                ? item.card.info.price / 100
-                : item.card.info.defaultPrice !== null &&
-                  item.card.info.defaultPrice !== undefined
-                ? item.card.info.defaultPrice / 100
-                : "N/A")}
-          </li>
-        ))}
-      </ul>
+      {categories.map((category, index) => (
+        <RetaurantCategory
+          key={category?.card?.card?.title}
+          data={category.card.card}
+          showIndex={showIndex}
+          showItem={index === showIndex && true}
+          setShowIndex = {() => setShowIndex(index)}
+        />
+      ))}
     </div>
   );
 };
