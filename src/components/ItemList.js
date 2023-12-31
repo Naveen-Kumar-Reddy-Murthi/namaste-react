@@ -22,7 +22,7 @@ const ItemList = ({ items }) => {
           </div>
           <div className="w-3/12 p-4 ">
             <div className="absolute">
-              <button className="p-2 mx-24 rounded-lg bg-orange-600 text-white shadow-lg">
+              <button className="p-2 mx-32 my-12 rounded-lg bg-black text-white shadow-lg">
                 Add
               </button>
             </div>
