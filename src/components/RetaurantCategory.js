@@ -6,7 +6,7 @@ const RetaurantCategory = ({ data, showItem, setShowIndex }) => {
     const handleClick = () => {
         //todo add logic to collapse expanded itemlist
         setShowIndex();
-        setShowItemList(!showItemList);
+        // setShowItemList(!showItemList);
     };
 
   return (
@@ -18,7 +18,7 @@ const RetaurantCategory = ({ data, showItem, setShowIndex }) => {
           </span>
           <span className="text-3xl bold">⌄</span>
         </div>
-       { showItemList && <ItemList items={data.itemCards}></ItemList>}
+       { showItem && <ItemList items={data.itemCards}></ItemList>}
         
       </div>
     </div>
