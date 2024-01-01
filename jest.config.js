@@ -195,4 +195,9 @@ const config = {
   // watchman: true,
 };
 
-module.exports = config;
+module.exports = {
+  transform: {
+    '^.+\\.jsx?$': 'babel-jest',
+  },
+};
+
