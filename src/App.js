@@ -35,13 +35,14 @@ const AppLayout = () => {
     setUserName(data.name);
   }, []);
   return (
-   
+    <UserContext.Provider value = {{loggedInUser:userName}}>
     <div className="app">
-       <UserContext.Provider value = {{loggedInUser:userName}}>
+    <UserContext.Provider value = {{loggedInUser:"Elon Musk"}}>
       <Header />
       </UserContext.Provider>
       <Outlet />
     </div>
+    </UserContext.Provider>
     
   );
 };
