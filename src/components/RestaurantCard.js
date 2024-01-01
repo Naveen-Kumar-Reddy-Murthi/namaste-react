@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import { CDN_URL } from "../utils/Constant";
+import UserContext from "../utils/UserContext";
 const RestaurantCard = (props) => {
   const { restuarant } = props;
-  console.log('isOpen = ', restuarant.info.isOpen)
+  const {loggedInUser} = useContext(UserContext);
   const { name, cuisines, avgRating, costForTwo, sla, cloudinaryImageId } =
     restuarant.info;
   return (
@@ -24,6 +26,7 @@ const RestaurantCard = (props) => {
       <h4 className="no-link py-1 text-xs font-serif">
         ⏲ {sla.deliveryTime} mins
       </h4>
+      <h4 className="no-link py-2 text-xs font-serif">{loggedInUser}</h4>
     </div>
   );
 };

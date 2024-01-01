@@ -1,4 +1,5 @@
-import Contributor from "./Contributor";
+
+import UserContext from "../utils/UserContext";
 import ContributorClass from "./ContributorClass";
 import React from "react";
 
@@ -11,8 +12,12 @@ class About extends React.Component {
     console.log("About render");
     return (
       <div className="contributor-card">
-        <h1>About Us class</h1>
+        {/* <h1>About Us class</h1> */}
         {/* <Contributor name="naveen-kumar-reddy-murthi"/> */}
+        <div>
+          Loggedin User: <UserContext.Consumer>{
+            (data) => data.loggedInUser}</UserContext.Consumer>
+        </div>
         <ContributorClass name="naveen-kumar-reddy-murthi" />
         <ContributorClass name="akshaymarch7" />
       </div>
