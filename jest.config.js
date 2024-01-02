@@ -199,5 +199,13 @@ module.exports = {
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
   },
+  testEnvironment: 'jsdom'
 };
+
+// // jest.config.js
+// module.exports = {
+//   // other Jest configurations
+//   testEnvironment: 'jsdom',
+// };
+
 
