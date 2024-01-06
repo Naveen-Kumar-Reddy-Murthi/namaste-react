@@ -1,5 +1,5 @@
 import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
@@ -55,7 +55,7 @@ const Body = () => {
     <div className="body">
       <div className="filter flex">
         <div className="search m-4 p-4">
-          <input cl
+          <input data-testid="searchInput"
             type="text"
             className="border border-solid border-black rounded-lg p-2"
             value={searchText}

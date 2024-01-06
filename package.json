@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "namaste-react-excersizes",
   "scripts": {
-    "test": "jest --coverage --watchAll=false",
+    "test": "jest --coverage",
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "watch-test": "jest --watch"
   },
   "repository": {
     "type": "git",

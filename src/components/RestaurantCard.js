@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React,{ useContext } from "react";
 import { CDN_URL } from "../utils/Constant";
 import UserContext from "../utils/UserContext";
 const RestaurantCard = (props) => {
@@ -7,7 +7,7 @@ const RestaurantCard = (props) => {
   const { name, cuisines, avgRating, costForTwo, sla, cloudinaryImageId } =
     restuarant.info;
   return (
-    <div className="m-4 p-4 w-[300px] bg-gray-100 rounded-lg hover:bg-gray-300">
+    <div data-testid="resCard" className="m-4 p-4 w-[300px] bg-gray-100 rounded-lg hover:bg-gray-300">
       <img
         className="rounded-lg"
         alt="res-logo"
