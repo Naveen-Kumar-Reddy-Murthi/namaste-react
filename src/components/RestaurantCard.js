@@ -7,7 +7,7 @@ const RestaurantCard = (props) => {
   const { name, cuisines, avgRating, costForTwo, sla, cloudinaryImageId } =
     restuarant.info;
   return (
-    <div data-testid="resCard" className="m-4 p-4 w-[300px] bg-gray-100 rounded-lg hover:bg-gray-300">
+    <div data-testid="resCard" className="m-5 p-5 w-[300] bg-gray-100 rounded-lg hover:border-black hover:bg-green-300 transition duration-300 ease-in-out">
       <img
         className="rounded-lg"
         alt="res-logo"
@@ -26,7 +26,6 @@ const RestaurantCard = (props) => {
       <h4 className="no-link py-1 text-xs font-serif">
         ⏲ {sla.deliveryTime} mins
       </h4>
-      <h4 className="no-link py-2 text-xs font-serif">{loggedInUser}</h4>
     </div>
   );
 };

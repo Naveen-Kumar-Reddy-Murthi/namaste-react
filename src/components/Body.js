@@ -4,15 +4,18 @@ import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import useRestaurantList from "../utils/useRestuarantList";
+import { useDispatch } from 'react-redux';
 const Body = () => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const [filterRestaurants, setFilterRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
-  const {loggedInUser, setUserName} = useContext(UserContext);
 
   useEffect(() => {
-    fetchData();
+    fetchRestaurants();
   }, []);
 
   const fetchData = async () => {
@@ -29,9 +32,7 @@ const Body = () => {
     const restaurants = jsonData?.data?.cards.find(
       (card) => card.card.card.id === restaurant_list
     );
-
-    console.log(restaurants?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-
+ console.log('body jsonData = ',jsonData)
     setRestaurants(
       restaurants?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
@@ -39,6 +40,68 @@ const Body = () => {
       restaurants?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
+
+  const fetchRestaurants = async () => {
+    const latitudes = [12.9351929,12.9698196,12.956924,13.1989089,12.9856503,13.0454314 /* Add more latitude values here */];
+    const longitudes = [77.62448069999999,77.7499721,77.701127,77.70681309999999,77.60569269999999, 77.5478699 /* Add more longitude values here */];
+    const pageType = 'DESKTOP_WEB_LISTING';
+    const endpoint = 'https://www.swiggy.com/dapi/restaurants/list/v5';
+    const fetchPromises = [];
+
+    latitudes.forEach((lat, index) => {
+      const lng = longitudes[index];
+      const url = `${endpoint}?lat=${lat}&lng=${lng}&page_type=${pageType}`;
+
+      fetchPromises.push(
+        fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .catch(error => {
+            console.error(`Error fetching data for lat: ${lat}, lng: ${lng}`, error);
+            return { restaurants: [] };
+          })
+      );
+    });
+
+    try {
+      const settledResponses = await Promise.allSettled(fetchPromises);
+      const validResponses = settledResponses
+        .filter(result => result.status === 'fulfilled')
+        .map(result => result.value);
+      let aggregatedRestaurants = [] ;
+
+      validResponses.forEach((response) => {
+          const restaurants = extractRestaurants(response);
+          aggregatedRestaurants = aggregatedRestaurants.concat(restaurants);
+      });
+      console.log('aggregatedRestaurants = ', aggregatedRestaurants)
+      const uniqueArrayOfObjects = Object.values(aggregatedRestaurants.reduce((acc, obj) => {
+        acc[obj.info.name] = obj;
+        return acc;
+      }, {}));
+      console.log('unique objects = ', uniqueArrayOfObjects);
+      setRestaurants(uniqueArrayOfObjects);
+      setFilterRestaurants(uniqueArrayOfObjects);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
+
+  const extractRestaurants = (jsonData) => {
+    const restaurant_list = "restaurant_grid_listing";
+      const restaurants = jsonData?.data?.cards.find(
+        (card) => card.card.card.id === restaurant_list
+      );
+      const list = restaurants?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+      return list;
+  
+  }
 
   const onlineStatus = useOnlineStatus();
 
@@ -53,7 +116,7 @@ const Body = () => {
     <Shimmer />
   ) : (
     <div className="body">
-      <div className="filter flex">
+      {/* <div className="flex">
         <div className="search m-4 p-4">
           <input data-testid="searchInput"
             type="text"
@@ -92,27 +155,15 @@ const Body = () => {
             Top Rated
           </button>
         </div>
-        <div className="search m-4 p-4 flex items-center">
-          <label>user name: </label>
-          <input
-            type="text"
-            className="border border-solid border-black rounded-lg p-2"
-            value = {loggedInUser}
-            onChange={(e) => 
-              setUserName(e.target.value)
-            }
-          />
-          
-        </div>
 
-      </div>
+      </div> */}
       <div className="flex flex-wrap">
         {restaurants.map((restuarant) => (
           <Link
             key={restuarant.info.id}
             to={"/restuarant/" + restuarant.info.id}
           >
-            {restuarant?.info?.isOpen ? (
+            {restuarant?.info?.isPromoted ? (
               <RestaurantCardPromoted restuarant={restuarant} />
             ) : (
               <RestaurantCard restuarant={restuarant} />
