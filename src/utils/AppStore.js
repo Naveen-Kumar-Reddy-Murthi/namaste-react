@@ -5,7 +5,7 @@ import restaurantsReducer from "./restaurantsSlice"
 const appStore = configureStore({
     reducer : {
         cart: cartReducer,
-        search: restaurantsReducer,
+        restaurant: restaurantsReducer,
     }
 });
 export default appStore;
