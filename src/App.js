@@ -12,6 +12,7 @@ import UserContext from "./utils/UserContext";
 import { Provider } from "react-redux";
 import appStore from "./utils/AppStore";
 import Cart from "./components/Cart";
+import { enableMapSet } from 'immer';
 /**
  * Header
  *  - Logo
@@ -31,6 +32,7 @@ import Cart from "./components/Cart";
  */
 const Grocery = lazy(() => import("./components/Grocery"));
 const AppLayout = () => {
+  enableMapSet();
   const [userName, setUserName] = useState();
 
   useEffect(() => {

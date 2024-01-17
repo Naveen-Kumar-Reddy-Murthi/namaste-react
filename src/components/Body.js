@@ -20,10 +20,10 @@ const Body = () => {
   useEffect(() => {
     console.log('calling useEffect for city ', selectedCity);
     fetchRestaurantsByCity(selectedCity);
-    // fetchRestaurants();
   }, [selectedCity]);
 
   const fetchRestaurantsByCity = async (cityName) => {
+    setLoading(true);
     const pageType = "DESKTOP_WEB_LISTING";
     const endpoint = "https://www.swiggy.com/dapi/restaurants/list/v5";
     const fetchPromises = [];
@@ -101,7 +101,7 @@ const Body = () => {
       </h1>
     );
 
-  return restaurants.length === 0 ? (
+  return (restaurants.length === 0 || loading) ? (
     <Shimmer />
   ) : (
     <div className="body">

@@ -26,19 +26,26 @@ const RestuarantMenu = () => {
         ?.cards[2]?.card?.card;
     itemCards = itemCards2;
   }
-
-  const categories =
-    restuarantInfo.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+  const mainCards = restuarantInfo.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
+  const categories = mainCards.filter(
       (c) =>
         c.card?.["card"]?.["@type"] ===
         "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
     );
 
+  const restaurantAddress =   mainCards.filter(
+    (c) =>
+      c.card?.["card"]?.["@type"] ===
+      "type.googleapis.com/swiggy.presentation.food.v2.RestaurantAddress"
+  );
+  console.log('complete address = ',restaurantAddress[0]?.card?.card?.completeAddress)
+
   return (
     <div className="text-center">
-      <h1 className="font-bold my-6 text-2xl">{name}</h1>
-      <p className="font-bold my-1 text-lg"> {cuisines.join(", ")}</p>
-      <h5 className="font-bold my-1 text-lg">
+      <h1 className="font-bold my-4 text-2xl">{name}</h1>
+      <p className="text-sm my-3">{restaurantAddress[0]?.card?.card?.completeAddress}</p>
+      <p className="text-sm my-6"> {cuisines.join(", ")}</p>
+      <h5 className="text-sm my-6">
         ★ {avgRatingString} | {costForTwoMessage}
       </h5>
       {categories.map((category, index) => (
