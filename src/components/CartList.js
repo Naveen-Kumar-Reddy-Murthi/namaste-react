@@ -1,14 +1,33 @@
 import { CDN_URL } from "../utils/Constant";
 import { useDispatch } from "react-redux";
-import { addItem } from "../utils/cartSlice";
+import { addItem, removeItem } from "../utils/cartSlice";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoMdRemoveCircleOutline } from "react-icons/io";
 import React from "react";
 
-
 const CartList = ({ items }) => {
-  console.log("cart items ==", items);
+
+  const platFormFee = 10;
+  const deliveryCharges = 73;
+
+  const totalPrice = items.reduce(
+    (total, item) => total + item.count * item.price,
+    0
+  );
+  const gst = (totalPrice * 0.05);
+  const toBePaid = (totalPrice+deliveryCharges+platFormFee+gst)
+
+  const dispatch = useDispatch();
+  const handleAddItem = (item) => {
+    dispatch(addItem(item));
+  };
+
+  const handleRemoveItem = (item) => {
+    dispatch(removeItem(item));
+  };
 
   return (
-    <div className="w-10/12 p-4 " >
+    <div className="w-10/12 p-4 ">
       {items.map((item) => (
         <div
           data-testid="foodItems"
@@ -20,26 +39,58 @@ const CartList = ({ items }) => {
               <span>{item.item.card.info.name + " "}</span>
             </div>
           </div>
-          <div className="w-2/12 p-4 ">
-            <div className="absolute"></div>
+          <div className="w-2/12 p-4 flex">
+            <span className="py-5 cursor-pointer">
+              <IoIosAddCircleOutline onClick={() => handleAddItem(item.item)} />
+            </span>
             <img
               className="w-16 rounded-lg"
               src={CDN_URL + item.item.card.info.imageId}
             />
-           
+            <span className="py-5 cursor-pointer">
+              <IoMdRemoveCircleOutline
+                onClick={() => handleRemoveItem(item.item)}
+              />
+            </span>
           </div>
           <div className="w-2/12 p-4 ">
-              <span>
-                 {item.count} x ₹
-                {item.price}
-              </span>
-            </div>
+            <span>{item.count} x</span>
+            <span> ₹{item.price} </span>
+            <span> = {item.count * item.price}</span>
+          </div>
         </div>
       ))}
-       {items.length>0 && <div className="w-2/12 p-4 ">
-                <h1 className="font-bold">Bill Details</h1>
-                <h1> </h1>
-        </div>}
+      {
+        <div className="px-96 py-24">
+          <div className="text-right">
+            <h1 className="font-bold text-center mb-4 border-b">Bill Details</h1>
+            <div className="flex justify-between">
+              <span className="w-2/3 text-center pr-4">Items Total:</span>
+              <span className="w-1/3 text-center px-16">
+                ₹{totalPrice}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="w-2/3 text-center pr-4">GST Charges:</span>
+              <span className="w-1/3 text-center px-16">₹{gst}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="w-2/3 text-center pr-4">Platform Fee:</span>
+              <span className="w-1/3 text-center px-16">₹{platFormFee}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="w-2/3 text-center pr-4">Delivery Fee:</span>
+              <span className="w-1/3 text-center px-16">₹{deliveryCharges}</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="w-2/3 text-center font-bold pr-4 mb-20">TO PAY:</span>
+              <span className="w-1/3 text-center px-16">₹{toBePaid}</span>
+            </div>
+            
+          </div>
+        </div>
+      }
     </div>
   );
 };

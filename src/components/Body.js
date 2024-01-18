@@ -18,7 +18,7 @@ const Body = () => {
   
 
   useEffect(() => {
-    console.log('calling useEffect for city ', selectedCity);
+    // console.log('calling useEffect for city ', selectedCity);
     fetchRestaurantsByCity(selectedCity);
   }, [selectedCity]);
 
@@ -30,9 +30,9 @@ const Body = () => {
     const cityAreas = cityInfo[cityName];
     if (cityAreas) {
       cityAreas.forEach(async (area) => {
-        console.log(
-          `Making API call for ${cityName}, ${area.area}: (${area.latitude}, ${area.longitude})`
-        );
+        // console.log(
+        //   `Making API call for ${cityName}, ${area.area}: (${area.latitude}, ${area.longitude})`
+        // );
         const url = `${endpoint}?lat=${area.latitude}&lng=${area.longitude}&page_type=${pageType}`;
         fetchPromises.push(
           fetch(url)
@@ -79,7 +79,7 @@ const Body = () => {
     } else {
       console.log(`City not found: ${cityName}`);
     }
-    console.log('restaurants =', restaurants)
+    // console.log('restaurants =', restaurants)
   };
 
   const extractRestaurants = (jsonData) => {

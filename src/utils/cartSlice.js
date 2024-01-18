@@ -10,13 +10,9 @@ const cartSlice = createSlice({
     addItem: (state, action) => {
       return produce(state, (draftState) => {
         const newItem = action.payload;
-    
         const id = newItem.card.info.id;
         const existingItemIndex = draftState.items.findIndex(item => item.id === id);
-        console.log('id =', id);
-    
         if (existingItemIndex !== -1) {
-          console.log('existing item', newItem);
           draftState.items[existingItemIndex].count += 1;
         } else {
           const price = newItem.card.info.price
@@ -32,8 +28,20 @@ const cartSlice = createSlice({
         }
       });
     },
-    removeItem: (state) => {
-      state.items.pop();
+    removeItem: (state, action) => {
+      return produce(state, (draftState) => {
+        const newItem = action.payload;
+        const id = newItem.card.info.id;
+        const existingItemIndex = draftState.items.findIndex(item => item.id === id);
+        if (existingItemIndex !== -1) {
+          const currentItem = draftState.items[existingItemIndex];
+          if (currentItem.count === 1) {
+            draftState.items.splice(existingItemIndex, 1);
+          } else {
+            draftState.items[existingItemIndex].count -= 1;
+          }
+        }
+      });
     },
     clearCart: (state) => {
       // state.items.length = [];
