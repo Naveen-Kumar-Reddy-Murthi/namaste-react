@@ -14,8 +14,9 @@ const CartList = ({ items }) => {
     (total, item) => total + item.count * item.price,
     0
   );
-  const gst = (totalPrice * 0.05);
-  const toBePaid = (totalPrice+deliveryCharges+platFormFee+gst)
+  const gst = Math.round((totalPrice * 0.05 + Number.EPSILON) * 100) / 100;
+
+  const toBePaid = parseFloat(totalPrice+deliveryCharges+platFormFee+gst).toFixed(2);
 
   const dispatch = useDispatch();
   const handleAddItem = (item) => {
@@ -27,19 +28,19 @@ const CartList = ({ items }) => {
   };
 
   return (
-    <div className="w-10/12 p-4 ">
+    <div className="w-2/3 p-4 ">
       {items.map((item) => (
         <div
           data-testid="foodItems"
           key={item.item.card.info.id}
           className="p-2 m-2 border-gray-400 border-b-2 text-left flex justify-between"
         >
-          <div className="w-6/12">
+          <div className="w-1/3">
             <div className="py-2">
               <span>{item.item.card.info.name + " "}</span>
             </div>
           </div>
-          <div className="w-2/12 p-4 flex">
+          <div className="w-1/3 p-4 flex">
             <span className="py-5 cursor-pointer">
               <IoIosAddCircleOutline onClick={() => handleAddItem(item.item)} />
             </span>
@@ -53,14 +54,14 @@ const CartList = ({ items }) => {
               />
             </span>
           </div>
-          <div className="w-2/12 p-4 ">
+          <div className="w-1/3 p-4 ">
             <span>{item.count} x</span>
             <span> ₹{item.price} </span>
             <span> = {item.count * item.price}</span>
           </div>
         </div>
       ))}
-      {
+      {items?.length > 0 ?
         <div className="px-96 py-24">
           <div className="text-right">
             <h1 className="font-bold text-center mb-4 border-b">Bill Details</h1>
@@ -90,7 +91,7 @@ const CartList = ({ items }) => {
             
           </div>
         </div>
-      }
+      :<></>}
     </div>
   );
 };
