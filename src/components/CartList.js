@@ -14,8 +14,7 @@ const CartList = ({ items }) => {
     (total, item) => total + item.count * item.price,
     0
   );
-  const gst = Math.round((totalPrice * 0.05 + Number.EPSILON) * 100) / 100;
-
+  const gst = parseFloat(totalPrice * 0.05).toFixed(2);
   const toBePaid = parseFloat(totalPrice+deliveryCharges+platFormFee+gst).toFixed(2);
 
   const dispatch = useDispatch();
