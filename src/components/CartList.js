@@ -1,11 +1,13 @@
 import { CDN_URL } from "../utils/Constant";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { addItem, removeItem } from "../utils/cartSlice";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import React from "react";
 
 const CartList = ({ items }) => {
+  const [isLoading, setIsLoading] = useState(false);
 
   const platFormFee = 10;
   const deliveryCharges = 73;
@@ -14,7 +16,7 @@ const CartList = ({ items }) => {
     (total, item) => total + item.count * item.price,
     0
   );
-  const gst = parseFloat(totalPrice * 0.05).toFixed(2);
+  const gst = totalPrice * 0.05;
   const toBePaid = parseFloat(totalPrice+deliveryCharges+platFormFee+gst).toFixed(2);
 
   const dispatch = useDispatch();
@@ -26,7 +28,22 @@ const CartList = ({ items }) => {
     dispatch(removeItem(item));
   };
 
+  const handleCartActionWithLoading = (cartAction) => async () => {
+    setIsLoading(true);
+
+    // Simulate an API call or any asynchronous operation
+    await new Promise((resolve) => setTimeout(resolve, 700)); // Simulating a delay of 1 second
+
+    cartAction({ /* pass any necessary parameters here */ });
+    setIsLoading(false);
+  };
+
   return (
+    isLoading ? (
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="spinner-border h-16 w-16 border-t-4 border-orange-500 rounded-full animate-spin"/>
+    </div>
+    ):
     <div className="w-2/3 p-4 ">
       {items.map((item) => (
         <div
@@ -41,7 +58,7 @@ const CartList = ({ items }) => {
           </div>
           <div className="w-1/3 p-4 flex">
             <span className="py-5 cursor-pointer">
-              <IoIosAddCircleOutline onClick={() => handleAddItem(item.item)} />
+              <IoIosAddCircleOutline onClick={handleCartActionWithLoading(() => handleAddItem(item.item))} />
             </span>
             <img
               className="w-16 rounded-lg"
@@ -49,7 +66,7 @@ const CartList = ({ items }) => {
             />
             <span className="py-5 cursor-pointer">
               <IoMdRemoveCircleOutline
-                onClick={() => handleRemoveItem(item.item)}
+                onClick={handleCartActionWithLoading(() => handleRemoveItem(item.item))}
               />
             </span>
           </div>

@@ -1,14 +1,41 @@
 import { CDN_URL } from "../utils/Constant";
 import { useDispatch } from "react-redux";
 import { addItem } from "../utils/cartSlice";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const ItemList = ({ items }) => {
   const dispatch = useDispatch();
-  const handleAddItem = (item) => {
+  const handleAddItem1 = (item) => {
     //dispatch action to add it to cart
     dispatch(addItem(item));
   };
+
+  const [isClicked, setIsClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAddItem = (item) => {
+    setIsClicked(true);
+    setIsLoading(true);
+
+    // Simulate an asynchronous operation (e.g., API call)
+    setTimeout(() => {
+      // Your processing logic here
+      dispatch(addItem(item));
+
+      // Reset the button state after processing
+      setIsClicked(false);
+      setIsLoading(false);
+    }, 400); // Simulating a delay of 1 second
+  };
+
+  useEffect(() => {
+    // Reset button state after a delay
+    const timeoutId = setTimeout(() => {
+      setIsClicked(false);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [isClicked]);
 
   return (
     <div>
@@ -34,6 +61,7 @@ const ItemList = ({ items }) => {
               <button
                 className="p-2 mx-32 my-12 rounded-lg bg-black text-white shadow-lg"
                 onClick={() => handleAddItem(item)}
+                disabled={isLoading}
               >
                 Add
               </button>
